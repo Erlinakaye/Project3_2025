@@ -21,6 +21,22 @@
                 #b0b0b0 20px
             );
         }
+        .controls {
+            margin-top: 20px;
+        }
+        .controls button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 30px;
+            padding: 15px;
+            margin: 5px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background-color: #555;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
@@ -28,11 +44,20 @@
     <h3>Retro Color Snake Game</h3>
     <canvas id="stage" height="400" width="520"></canvas>
 
+    <!-- Control Buttons with Arrow symbols -->
+    <div class="controls">
+        <button onclick="changeDirection('up')">↑</button>
+        <button onclick="changeDirection('left')">←</button>
+        <button onclick="changeDirection('right')">→</button>
+        <button onclick="changeDirection('down')">↓</button>
+    </div>
+
     <script>
         var Game = Game || {};
         var Keyboard = Keyboard || {}; 
         var Component = Component || {};
 
+        // Default direction keymap
         Keyboard.Keymap = { 37: 'left', 38: 'up', 39: 'right', 40: 'down' };
 
         Keyboard.ControllerEvents = function() {
@@ -160,10 +185,17 @@
                 setTimeout(gameLoop, snake.stage.conf.fps);
             };
             gameLoop();
+            return snake;  // return snake object for control access
         };
 
+        // Function to change snake's direction from button click
+        function changeDirection(direction) {
+            var snake = Game.snake;
+            snake.stage.direction = direction;
+        }
+
         window.onload = function() {
-            new Game.Snake('stage', { fps: 150, size: 4, minFps: 50, fpsIncrement: 5 });
+            Game.snake = new Game.Snake('stage', { fps: 150, size: 4, minFps: 50, fpsIncrement: 5 });
         };
     </script>
 </body>
